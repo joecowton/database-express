@@ -48,9 +48,9 @@ app.get('/set',function(req,res){
 
 app.get('/get', function(req, res) {
   console.log(req.query[req.query.key]);
-  Item.findAll().then(item =>
-    // { res.send(`Session value: ${item}`)}
-    console.log(item)
+  Item.findAll({ raw: true, where: { key: req.query.key }  }).then(item =>
+  { res.json(item)}
+
     // ({ where: { key: req.query.key } })
 
   );
