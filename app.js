@@ -17,37 +17,43 @@ const sequelize = new Sequelize('mydb', 'josephcowton', 'Thechronic1', {
 
 
 const Item = sequelize.define('item', {
+  key: {
+    type: Sequelize.STRING
+  },
   value: {
     type: Sequelize.STRING
   },
+
 });
 
-Item.sync({force: true}).then(() => {
-  // Table created
-  return Item.create({
-    value: 'default'
-  });
-});
+  // Item.sync({force: true}).then(() => {
+  //   return Item.create({
+  //     key: 'default',
+  //     value: 'default',
+  //   });
+  // });
 
-Item.findOne().then(item => {
-  console.log(item.get('item'));
-});
+// Item.findOne().then(item => {
+//   console.log(item.get('item'));
+// });
 
 app.get('/', function(req, res){
   res.render('item');
 })
 
 app.get('/set',function(req,res){
-  req.session.query = req.query.somekey;
-  Item.create({
-    value: req.session.query,
-  });
-  res.send(`Session value set as ${req.session.query}`)
+  Item.create({key: 'somekey', value: req.query.somekey } );
+  res.send(`${req.query.somekey} stored in database`)
 })
 
-
 app.get('/get', function(req, res) {
-  res.send(`This should print the value from the session: ${req.session.query[req.query.key]}`)
+  console.log(req.query[req.query.key]);
+  Item.findAll().then(item =>
+    // { res.send(`Session value: ${item}`)}
+    console.log(item)
+    // ({ where: { key: req.query.key } })
+
+  );
 });
 
 app.listen(4000, () => console.log('Example app listening on port 4000!'))
