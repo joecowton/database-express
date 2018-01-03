@@ -2,9 +2,9 @@
   "name": "database-express",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "main": "app.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "./node_modules/.bin/jasmine-node spec --captureExceptions"
   },
   "keywords": [],
   "author": "",
@@ -13,9 +13,11 @@
     "bluebird": "^3.5.1",
     "express": "^4.16.2",
     "express-session": "^1.15.6",
+    "jasmine-node": "^1.14.5",
     "mongodb": "^3.0.1",
     "pg": "^7.4.0",
     "pg-promise": "^5.9.7",
+    "request": "^2.83.0",
     "sequelize": "^4.28.6"
   }
 }

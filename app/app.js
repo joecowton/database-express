@@ -32,7 +32,7 @@ const Item = sequelize.define('item', {
   // });
 
 app.get('/', function(req, res){
-  res.render('Hello');
+  res.send(200,'Hello');
 });
 
 app.get('/set',function(req,res){
