@@ -1,8 +1,6 @@
 const express = require('express')
 const app = express()
-var session = require('express-session');
 const Sequelize = require('sequelize');
-app.use(session({secret: "Shh, its a secret!"}));
 
 const sequelize = new Sequelize('mydb', 'josephcowton', 'Thechronic1', {
   host: 'localhost',
@@ -33,36 +31,28 @@ const Item = sequelize.define('item', {
   //   });
   // });
 
-// Item.findOne().then(item => {
-//   console.log(item.get('item'));
-// });
-
 app.get('/', function(req, res){
-  res.render('item');
-})
+  res.render('Hello');
+});
 
 app.get('/set',function(req,res){
-  Item.create({key: 'somekey', value: req.query.somekey } );
+  Item.create( {key: 'somekey', value: req.query.somekey } );
   res.send(`${req.query.somekey} stored in database`)
-})
+});
 
 app.get('/get', function(req, res) {
-  console.log(req.query[req.query.key]);
-  Item.findAll({ raw: true, where: { key: req.query.key }  }).then(item =>
-  { res.json(item)}
-
-    // ({ where: { key: req.query.key } })
-
-  );
+  Item.findAll({where: { key: req.query['key'] }})
+    .then(item => { res.send(item)})
+    .catch(error => res.status(400).send(error));
 });
 
 app.listen(4000, () => console.log('Example app listening on port 4000!'))
 
 sequelize
-.authenticate()
-.then(() => {
-  console.log('Connection has been established successfully.');
-})
-.catch(err => {
-  console.error('Unable to connect to the database:', err);
+  .authenticate()
+  .then(() => {
+    console.log('Connection has been established successfully.');
+  })
+  .catch(err => {
+    console.error('Unable to connect to the database:', err);
 });
