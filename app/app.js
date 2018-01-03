@@ -42,7 +42,7 @@ app.get('/', function(req, res){
 app.get('/set',function(req,res){
   Item.create({key: 'somekey', value: req.query.somekey })
     .then(() =>{
-      res.send(200, `${req.query.somekey} stored in database`)
+      res.status(200).send(`${req.query.somekey} stored in database`)
     })
     .catch(error => res.status(400).send(error));
 });
@@ -50,7 +50,7 @@ app.get('/set',function(req,res){
 app.get('/get', function(req, res) {
   Item.findAll({where: { key: req.query['key'] }})
     .then(item => {
-      res.send(200, `value taken from database: ${item[0].value }`)
+      res.status(200).send(`value taken from database: ${item[0].value }`)
     })
     .catch(error => res.status(400).send(error));
 });
