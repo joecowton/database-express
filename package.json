@@ -19,5 +19,8 @@
     "pg-promise": "^5.9.7",
     "request": "^2.83.0",
     "sequelize": "^4.28.6"
+  },
+  "devDependencies": {
+    "sequelize-mock": "^0.10.2"
   }
 }

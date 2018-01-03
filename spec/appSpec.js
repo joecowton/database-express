@@ -4,29 +4,12 @@ var base_url = "http://localhost:4000/"
 var set_url = "http://localhost:4000/set?somekey=somevalue"
 var get_url = "http://localhost:4000/get?key=somekey"
 
+var SequelizeMock = require('sequelize-mock');
+var dbMock = new SequelizeMock();
 
-const Sequelize = require('sequelize');
-
-const sequelize = new Sequelize('mydb', 'josephcowton', 'Thechronic1', {
-  host: 'localhost',
-  dialect: 'postgres',
-  pool: {
-          max: 5,
-          min: 0,
-          acquire: 30000,
-          idle: 10000
-        },
-});
-
-
-const Item = sequelize.define('item', {
-  key: {
-    type: Sequelize.STRING
-  },
-  value: {
-    type: Sequelize.STRING
-  },
-
+const Item = dbMock.define('item', {
+  key: 'somekey',
+  value: 'somevalue'
 });
 
 describe("App", function() {
