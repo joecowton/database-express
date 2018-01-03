@@ -10,6 +10,12 @@ var dbMock = new SequelizeMock();
 const Item = dbMock.define('item', {
   key: 'somekey',
   value: 'somevalue'
+}, {
+    instanceMethods: {
+        getKey: function () {
+            return this.get('key');
+        },
+    },
 });
 
 describe("App", function() {
@@ -73,6 +79,13 @@ describe("App", function() {
       Item.findAll()
         .then(item => {
           expect(item.value).toEqual('somevalue')
+      })
+    })
+
+    it('getKey should return key', function(){
+      Item.findAll()
+        .then(item => {
+          expect(item.getKey).toEqual('someKey')
       })
     })
   })

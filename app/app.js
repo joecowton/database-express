@@ -20,9 +20,13 @@ const Item = sequelize.define('item', {
   },
   value: {
     type: Sequelize.STRING
-  },
-
-});
+  }}, {
+      instanceMethods: {
+          getKey: function () {
+              return this.get('key');
+          },
+      },
+  });
 
   // Item.sync({force: true}).then(() => {
   //   return Item.create({
