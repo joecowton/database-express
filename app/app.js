@@ -37,12 +37,14 @@ app.get('/', function(req, res){
 
 app.get('/set',function(req,res){
   Item.create( {key: 'somekey', value: req.query.somekey } );
-  res.send(`${req.query.somekey} stored in database`)
+  res.send(200, `${req.query.somekey} stored in database`)
 });
 
 app.get('/get', function(req, res) {
   Item.findAll({where: { key: req.query['key'] }})
-    .then(item => { res.send(item)})
+    .then(item => {
+       res.send(200, `value taken from database: ${item[0].value}`)
+    })
     .catch(error => res.status(400).send(error));
 });
 
