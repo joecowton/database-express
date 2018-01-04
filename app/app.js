@@ -1,9 +1,6 @@
 const express = require('express')
 const app = express()
 const Sequelize = require('sequelize');
-const Item = require('../models/item');
-
-
 
 const sequelize = new Sequelize('mydb', 'josephcowton', null, {
   host: 'localhost',
@@ -16,6 +13,20 @@ const sequelize = new Sequelize('mydb', 'josephcowton', null, {
         },
 });
 
+const Item = sequelize.define('item', {
+  key: {
+    type: Sequelize.STRING,
+    allowNull: false,
+  },
+  value: {
+    type: Sequelize.STRING,
+    allowNull: false,
+    get() {
+      return this.getDataValue('value');
+    },
+  }
+});
+
 app.get('/', function(req, res){
   Item.sync({})
   .then(() => {
@@ -25,13 +36,11 @@ app.get('/', function(req, res){
 });
 
 app.get('/set',function(req,res){
-  Item.create({
-    key: 'somekey',
-    value: req.query.somekey
-  }).then((item) =>{
+  Item.create({key: 'somekey', value: req.query.somekey })
+    .then((item) =>{
       res.status(200).send(`${item.value} stored in database`)
-  })
-  .catch(error => res.status(400).send(error));
+    })
+    .catch(error => res.status(400).send(error));
 });
 
 app.get('/get', function(req, res) {
