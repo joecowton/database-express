@@ -20,6 +20,10 @@ git clone: https://github.com/joecowton/database-express
 
 npm install
 
+createdb mydb
+
+(configure Sequelize settings in app.js)
+
 node app/app.js
 
 ### To test
