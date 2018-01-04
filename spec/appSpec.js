@@ -2,21 +2,8 @@ var request = require("request");
 
 var base_url = "http://localhost:4000/"
 var set_url = "http://localhost:4000/set?somekey=somevalue"
-var get_url = "http://localhost:4000/get?key=somekey"
+var get_url = "http://localhost:4000/get?key=somekey&id=3"
 
-var SequelizeMock = require('sequelize-mock');
-var dbMock = new SequelizeMock();
-
-const Item = dbMock.define('item', {
-  key: 'somekey',
-  value: 'somevalue'
-}, {
-    instanceMethods: {
-        getKey: function () {
-            return this.get('key');
-        },
-    },
-});
 
 describe("App", function() {
   describe("GET /", function() {
@@ -29,7 +16,7 @@ describe("App", function() {
     it("returns Hello World", function(done) {
       request.get(base_url, function(error, response, body) {
         console.log(body);
-        expect(body).toEqual('Hello');
+        expect(body).toEqual('Hello World');
         done();
       });
     });
@@ -42,7 +29,7 @@ describe("App", function() {
       });
     });
 
-    it("returns Hello World", function(done) {
+    it("stores value in database", function(done) {
       request.get(set_url, function(error, response, body) {
         console.log(body);
         expect(body).toEqual('somevalue stored in database');
@@ -58,7 +45,7 @@ describe("App", function() {
       });
     });
 
-    it("returns Hello World", function(done) {
+    it("returns value from database", function(done) {
       request.get(get_url, function(error, response, body) {
         console.log(body);
         expect(body).toEqual('value taken from database: somevalue');
@@ -66,28 +53,4 @@ describe("App", function() {
       });
     });
   });
-
-  describe("item", function(){
-    it('should store key', function(){
-      Item.findAll()
-        .then(item => {
-          expect(item.key).toEqual('somekey')
-      })
-    })
-
-    it('should store value', function(){
-      Item.findAll()
-        .then(item => {
-          expect(item.value).toEqual('somevalue')
-      })
-    })
-
-    it('getKey should return key', function(){
-      Item.findAll()
-        .then(item => {
-          expect(item.getKey).toEqual('someKey')
-      })
-    })
-  })
-
 });

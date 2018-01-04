@@ -2,7 +2,7 @@ const express = require('express')
 const app = express()
 const Sequelize = require('sequelize');
 
-const sequelize = new Sequelize('mydb', 'josephcowton', 'Thechronic1', {
+const sequelize = new Sequelize('mydb', 'josephcowton', null, {
   host: 'localhost',
   dialect: 'postgres',
   pool: {
@@ -13,44 +13,36 @@ const sequelize = new Sequelize('mydb', 'josephcowton', 'Thechronic1', {
         },
 });
 
-
 const Item = sequelize.define('item', {
   key: {
-    type: Sequelize.STRING
+    type: Sequelize.STRING,
+    allowNull: false,
   },
   value: {
-    type: Sequelize.STRING
-  }}, {
-      instanceMethods: {
-          getKey: function () {
-              return this.get('key');
-          },
-      },
-  });
-
-  // Item.sync({force: true}).then(() => {
-  //   return Item.create({
-  //     key: 'default',
-  //     value: 'default',
-  //   });
-  // });
+    type: Sequelize.STRING,
+    allowNull: false,
+    get() {
+      return this.getDataValue('value');
+    },
+  }
+});
 
 app.get('/', function(req, res){
-  res.send(200,'Hello');
+  res.send(200,'Hello World');
 });
 
 app.get('/set',function(req,res){
   Item.create({key: 'somekey', value: req.query.somekey })
-    .then(() =>{
-      res.status(200).send(`${req.query.somekey} stored in database`)
+    .then((item) =>{
+      res.status(200).send(`${item.value} stored in database`)
     })
     .catch(error => res.status(400).send(error));
 });
 
 app.get('/get', function(req, res) {
-  Item.findAll({where: { key: req.query['key'] }})
-    .then(item => {
-      res.status(200).send(`value taken from database: ${item[0].value }`)
+  Item.findAll({where: { key: req.query['key'], id: req.query['id'] }})
+    .then((items) => {
+      res.status(200).send(`value taken from database: ${items[0].value}`)
     })
     .catch(error => res.status(400).send(error));
 });
