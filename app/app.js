@@ -17,6 +17,9 @@ const Item = sequelize.define('item', {
   key: {
     type: Sequelize.STRING,
     allowNull: false,
+    get() {
+      return this.getDataValue('key');
+    },
   },
   value: {
     type: Sequelize.STRING,
@@ -29,10 +32,10 @@ const Item = sequelize.define('item', {
 
 app.get('/', function(req, res){
   Item.sync({})
-  .then(() => {
-    res.status(200).send('Hello World')
-  })
-  .catch(error => res.status(400).send(error))
+    .then(() => {
+      res.status(200).send('Hello World')
+    })
+    .catch(error => res.status(400).send(error))
 });
 
 app.get('/set',function(req,res){
