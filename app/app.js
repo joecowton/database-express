@@ -28,7 +28,11 @@ const Item = sequelize.define('item', {
 });
 
 app.get('/', function(req, res){
-  res.send(200,'Hello World');
+  Item.sync({})
+  .then(() => {
+    res.status(200).send('Hello World')
+  })
+  .catch(error => res.status(400).send(error))
 });
 
 app.get('/set',function(req,res){
