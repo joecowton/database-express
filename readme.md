@@ -15,7 +15,7 @@ If the user visits http://localhost:4000/set?somekey=somevalue a get request is 
 If the user then visits http://localhost:4000/get?key=somekey&id=0 the stored value will be selected from the database and rendered to the screen. The 'id' parameter was not part of the original specification but provides a work around for an issue I had accessing specific items from the database using Sequelize. Given more time I'd prefer to find a more discrete solution to this.
 
 ### To run
-
+```
 git clone: https://github.com/joecowton/database-express
 
 npm install
@@ -25,7 +25,8 @@ createdb mydb
 (configure Sequelize settings in app.js)
 
 node app/app.js
-
+```
 ### To test
-
+```
 npm test (while server is running)
+```
