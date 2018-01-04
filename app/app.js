@@ -17,9 +17,6 @@ const Item = sequelize.define('item', {
   key: {
     type: Sequelize.STRING,
     allowNull: false,
-    get() {
-      return this.getDataValue('key');
-    },
   },
   value: {
     type: Sequelize.STRING,

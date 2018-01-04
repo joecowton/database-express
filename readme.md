@@ -17,13 +17,9 @@ If the user then visits http://localhost:4000/get?key=somekey&id=0 the stored va
 ### To run
 ```
 git clone: https://github.com/joecowton/database-express
-
+cd express-database
 npm install
-
-createdb mydb
-
-(configure Sequelize settings in app.js)
-
+createdb mydb (configure Sequelize settings in app.js)
 node app/app.js
 ```
 ### To test
